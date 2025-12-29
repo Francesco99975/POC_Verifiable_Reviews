@@ -1,0 +1,43 @@
+services:
+  reviews:
+    container_name: reviews
+    image: reviews
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3169/healthcheck"]
+    labels:
+      - traefik.http.routers.reviews.rule=Host(`reviews.example.com`)
+      - traefik.http.routers.reviews.entrypoints=web,websecure
+      - traefik.http.routers.reviews.service=reviews
+      - traefik.http.services.reviews.loadbalancer.server.port=3169
+      - traefik.http.routers.reviews.tls=true
+      - traefik.http.routers.reviews.tls.certresolver=le
+      - traefik.http.middlewares.forwardedheaders.headers.customrequestheaders.X-Forwarded-Proto=https
+      - traefik.http.middlewares.forwardedheaders.headers.customrequestheaders.X-Forwarded-For={ip}
+      - traefik.http.middlewares.websocket-headers.headers.customrequestheaders.Upgrade=websocket
+      - traefik.http.middlewares.websocket-headers.headers.customrequestheaders.Connection=Upgrade
+      - traefik.http.routers.reviews.middlewares=websocket-headers
+      - traefik.port=80
+    networks:
+      - reviewsnet
+      - proxy
+      - monitoring
+    ports:
+      - 3169:3169
+
+networks:
+  proxy:
+    external: true
+  monitoring:
+    external: true
+  reviewsnet:
+    driver: bridge
+    external: false
+
+volumes:
+  reviewspgdata:
+    driver: local
+  reviewspgconf:
+    driver: local
+  reviewspglog:
+    driver: local

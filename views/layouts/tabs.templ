@@ -1,0 +1,49 @@
+package layouts
+
+import "github.com/Francesco99975/reviews/internal/models"
+
+import "github.com/Francesco99975/reviews/views/components"
+import "github.com/Francesco99975/reviews/views/icons"
+
+type TabLayoutProps struct {
+	Site      models.Site
+	Tabs      []components.TabConfig
+	ActiveTab string
+}
+
+templ TabLayout(props TabLayoutProps) {
+	@CoreHTML(props.Site) {
+		<div
+			class="antialiased min-h-screen bg-std transition-colors"
+			x-data={ "{ activeTab: '" + props.ActiveTab + "' }" }
+		>
+			@components.Header(props.Site)
+			<!-- Main Content Area with padding for bottom navigation -->
+			<main class="pb-20 md:pb-20 min-h-screen" id="main-content">
+				{ children... }
+			</main>
+			<!-- Tab Navigation -->
+			@components.TabNav(props.Tabs, props.ActiveTab)
+		</div>
+	}
+}
+
+// Example usage helper function to generate default tabs
+func DefaultTabs() []components.TabConfig {
+	return []components.TabConfig{
+		{
+			ID:       "invoices",
+			Label:    "Invoices",
+			Icon:     icons.Home("w-full h-full"),
+			HasBadge: false,
+			Route:    "/invoices",
+		},
+		{
+			ID:       "reviews",
+			Label:    "Reviews",
+			Icon:     icons.Search("w-full h-full"),
+			HasBadge: false,
+			Route:    "/reviews",
+		},
+	}
+}

@@ -1,0 +1,58 @@
+package views
+
+import (
+	"github.com/Francesco99975/reviews/internal/repository"
+	"github.com/Francesco99975/reviews/views/components"
+	"github.com/Francesco99975/reviews/views/icons"
+)
+
+templ ReviewsTab(reviews []*repository.GetAllReviewsRow, csrf string) {
+	<div class="max-w-6xl mx-auto p-4 pb-24 md:pb-8 mt-5" x-data="{ toast: null }">
+		<!-- Review Creation Form -->
+		@components.ReviewForm(csrf)
+		<!-- Reviews List Header -->
+		<div class="flex items-center justify-between mb-4">
+			<h2 class="text-2xl font-bold text-primary">All Reviews</h2>
+			<button
+				hx-get="/reviews"
+				hx-target="#reviews-list"
+				hx-swap="innerHTML"
+				class="p-2 text-primary hover:bg-primary hover:text-std rounded-lg transition-all"
+				title="Refresh reviews"
+			>
+				@icons.Refresh("w-5 h-5")
+			</button>
+		</div>
+		<!-- Reviews List -->
+		<div id="reviews-list" class="space-y-4">
+			if len(reviews) > 0 {
+				for _, review := range reviews {
+					@components.ReviewItem(review.ID, review.Content, *review.Created)
+				}
+			} else {
+				@EmptyReviewState(len(reviews) == 0, false)
+			}
+		</div>
+		<!-- Toast Notification -->
+		@components.Toast()
+	</div>
+}
+
+templ EmptyReviewState(show bool, oob bool) {
+	if show {
+		<!-- Empty State -->
+		<div id="empty-message" class="border-2 border-dashed border-primary rounded-xl p-12 text-center">
+			@icons.MessageSquare("w-16 h-16 mx-auto mb-4 text-primary opacity-40")
+			<p class="text-primary opacity-60 font-medium">No reviews yet</p>
+			<p class="text-primary opacity-40 text-sm mt-2">Write your first review to get started</p>
+		</div>
+	} else {
+		<p
+			id="empty-message"
+			class="hidden"
+			if oob {
+				hx-swap-oob="outerHTML"
+			}
+		></p>
+	}
+}

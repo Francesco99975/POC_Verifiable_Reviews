@@ -1,0 +1,65 @@
+package views
+
+import "github.com/Francesco99975/reviews/views/components"
+import "github.com/Francesco99975/reviews/views/icons"
+import "github.com/Francesco99975/reviews/internal/repository"
+
+templ InvoicesTab(invoices []*repository.GetAllInvoicesWithReviewRow, csrf string) {
+	<!-- Invoices Tab Content -->
+	<div class="max-w-4xl mx-auto pb-24 md:pb-8 mt-5" x-data="{ showForm: false, toast: null }">
+		@components.Toast()
+		<!-- Header Section -->
+		<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+			<div>
+				<h1 class="text-2xl md:text-3xl font-bold text-primary">Invoices</h1>
+				<p class="text-sm text-primary/60 mt-1">Manage and create invoices</p>
+			</div>
+			<!-- Create Invoice Button -->
+			<button
+				@click="showForm = !showForm"
+				class="w-full sm:w-auto px-6 py-3 bg-primary text-std rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+			>
+				@icons.Plus("w-5 h-5")
+				<span x-text="showForm ? 'Cancel' : 'New Invoice'"></span>
+			</button>
+		</div>
+		<!-- Create Invoice Form -->
+		@components.InvoiceForm(csrf)
+		<!-- Invoice List -->
+		<div class="space-y-3">
+			<h2 class="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
+				@icons.FileText("w-5 h-5")
+				<span>All Invoices</span>
+			</h2>
+			<!-- Invoice List Container -->
+			<div id="invoice-list" class="space-y-2">
+				if len(invoices) > 0 {
+					for _, item := range invoices {
+						@components.InvoiceItem(item.InvoiceID, item.InvoiceTotal, *item.InvoiceCreated, item.Content, &item.ReviewCreated.Time, csrf)
+					}
+				} else {
+					@EmptyInvoiceState(len(invoices) == 0, false)
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ EmptyInvoiceState(show bool, oob bool) {
+	if show {
+		<!-- Empty State -->
+		<div id="empty-message" class="text-center py-12">
+			@icons.FileText("w-16 h-16 mx-auto text-primary/30 mb-4")
+			<p class="text-primary/60 text-lg">No invoices yet</p>
+			<p class="text-primary/40 text-sm mt-1">Create your first invoice to get started</p>
+		</div>
+	} else {
+		<p
+			id="empty-message"
+			class="hidden"
+			if oob {
+				hx-swap-oob="outerHTML"
+			}
+		></p>
+	}
+}

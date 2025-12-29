@@ -1,0 +1,10 @@
+package views
+
+import "github.com/Francesco99975/reviews/views/layouts"
+import "github.com/Francesco99975/reviews/internal/repository"
+
+templ Index(props layouts.TabLayoutProps, invoices []*repository.GetAllInvoicesWithReviewRow) {
+	@layouts.TabLayout(props) {
+		@InvoicesTab(invoices, props.Site.CSRF)
+	}
+}
