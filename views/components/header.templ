@@ -1,8 +1,8 @@
 package components
 
 import (
-	"github.com/Francesco99975/reviews/views/icons"
 	"github.com/Francesco99975/reviews/internal/models"
+	"github.com/Francesco99975/reviews/views/icons"
 )
 
 templ Header(site models.Site) {
@@ -108,6 +108,61 @@ templ Header(site models.Site) {
 						</div>
 					</nav>
 				</div>
+			</div>
+		</div>
+	</header>
+}
+
+templ InformationalHeader(title string) {
+	<header class="sticky top-0 z-50 bg-std/80 backdrop-blur-md border-b border-primary/10 shadow-sm">
+		<div class="container mx-auto px-4 lg:px-6">
+			<div
+				class="flex items-center justify-between h-16"
+				x-data="{
+					darkMode: localStorage.getItem('darkMode') === 'true' ? true :
+							(localStorage.getItem('darkMode') === 'false' ? false :
+							window.matchMedia('(prefers-color-scheme: dark)').matches)
+				}"
+				x-init="
+					if(darkMode) {
+						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+					}
+
+					$watch('darkMode', val => {
+						localStorage.setItem('darkMode', val);
+						if(val) {
+							document.documentElement.classList.add('dark');
+						} else {
+							document.documentElement.classList.remove('dark');
+						}
+					});
+
+					window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+						if (localStorage.getItem('darkMode') === null) {
+							darkMode = e.matches;
+						}
+					});
+				"
+			>
+				<!-- Logo and Title -->
+				<div class="flex items-center gap-3 group">
+					<div class="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 bg-std p-2 rounded-full">
+						// @icons.Logo("stroke-accent stroke-[32px] fill-none w-8 h-8")
+						<img src="/assets/dist/icon-optimized.svg" alt="Go App Logo" class="w-8 h-8"/>
+					</div>
+					<h1 class="text-xl lg:text-2xl font-bold text-primary tracking-tight">{ title }</h1>
+				</div>
+				<!-- Dark Mode Toggle -->
+				<button
+					@click="darkMode = !darkMode"
+					class="p-2.5 rounded-full bg-primary/5 hover:bg-primary/10 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 focus:ring-offset-std"
+					aria-label="Toggle dark mode"
+				>
+					@icons.Sun("w-5 h-5 stroke-primary")
+					@icons.Moon("w-5 h-5 stroke-primary")
+				</button>
 			</div>
 		</div>
 	</header>

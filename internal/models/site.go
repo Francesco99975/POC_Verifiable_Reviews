@@ -53,7 +53,7 @@ func GetDefaultSite(title string) Site {
 	cssFile, cssIntegrity := GetCSS()
 
 	return Site{
-		AppName:  "GoApp",
+		AppName:  "POC: Verifiable Reviews",
 		Title:    title,
 		Metatags: SEO{Description: "App", Keywords: "tool", Author: "kalairen"},
 		Year:     time.Now().Year(),

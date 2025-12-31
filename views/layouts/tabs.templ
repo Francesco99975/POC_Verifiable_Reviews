@@ -17,7 +17,7 @@ templ TabLayout(props TabLayoutProps) {
 			class="antialiased min-h-screen bg-std transition-colors"
 			x-data={ "{ activeTab: '" + props.ActiveTab + "' }" }
 		>
-			@components.Header(props.Site)
+			@components.InformationalHeader(props.Site.AppName)
 			<!-- Main Content Area with padding for bottom navigation -->
 			<main class="pb-20 md:pb-20 min-h-screen" id="main-content">
 				{ children... }
