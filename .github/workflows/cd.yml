@@ -57,12 +57,12 @@ jobs:
       url: https://reviews.example.com
     steps:
       - name: Download Docker image
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: reviews-image
 
       - name: Download docker-compose
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: docker-compose
 
