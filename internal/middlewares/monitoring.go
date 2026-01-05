@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/Francesco99975/reviews/internal/monitoring"
-	"github.com/Francesco99975/reviews/internal/helpers"
 	"github.com/Francesco99975/reviews/cmd/boot"
+	"github.com/Francesco99975/reviews/internal/helpers"
+	"github.com/Francesco99975/reviews/internal/monitoring"
 	"github.com/labstack/echo/v4"
 )
 
@@ -84,4 +84,3 @@ func MetricsAccessMiddleware() echo.MiddlewareFunc {
 		}
 	}
 }
-

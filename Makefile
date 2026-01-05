@@ -115,12 +115,12 @@ vet: ## Analyze code for potential issues
 	go vet ./...
 
 .PHONY: ci
-ci: test lint vet fmt coverage ## Run all checks (tests, lint, vet, format)
+ci: lint vet fmt coverage ## Run all checks (tests, lint, vet, format)
 
 .PHONY: staging
 staging: ## Deploy to staging environment
-	scp $(PROJECT_NAME).tar docker-compose.yml dbp.env $(SERVER_STAGING):~/apps/$(PROJECT_NAME)
+	scp $(PROJECT_NAME).tar docker-compose.yml $(SERVER_STAGING):~/apps/$(PROJECT_NAME)
 
 .PHONY: production
 production: ## Deploy to production environment
-	scp $(PROJECT_NAME).tar docker-compose.yml dbp.env $(SERVER_PRODUCTION):~/apps/$(PROJECT_NAME)/
+	scp $(PROJECT_NAME).tar docker-compose.yml $(SERVER_PRODUCTION):~/apps/$(PROJECT_NAME)/

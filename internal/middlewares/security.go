@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/Francesco99975/reviews/cmd/boot"
-	"github.com/Francesco99975/reviews/internal/helpers"
 	"github.com/Francesco99975/reviews/internal/enums"
+	"github.com/Francesco99975/reviews/internal/helpers"
 	"github.com/labstack/echo/v4"
 )
 
