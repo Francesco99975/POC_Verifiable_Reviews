@@ -5,8 +5,6 @@ on:
     workflows: ["CI"]   # Must exactly match the name: CI from your CI file
     types:
       - completed
-    tags:
-      - 'v*'
 
 jobs:
   build:
@@ -39,7 +37,7 @@ jobs:
     name: Deploy to Production
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: production
       url: https://poc.reviews.urx.ink
