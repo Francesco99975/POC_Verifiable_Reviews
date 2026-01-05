@@ -61,9 +61,3 @@ jobs:
         with:
           green: "80"   # optional: customize thresholds if needed
           filename: coverage.out
-
-      - name: Save coverage badge
-        if: github.ref == 'refs/heads/master'   # Or 'main' if that's your default branch
-        run: |
-          mkdir -p .github/badges
-          cp coverage-badge.svg .github/badges/coverage.svg   # The action above usually outputs to coverage-badge.svg
