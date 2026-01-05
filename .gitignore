@@ -22,7 +22,6 @@ views/**/*.txt
 reports/*
 age-key*
 *.tar.gz
-*templ.go
 benchmarks
 public
 *reports
