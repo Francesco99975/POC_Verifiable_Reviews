@@ -11,7 +11,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/Francesco99975/reviews/cmd/boot"
-	"github.com/Francesco99975/reviews/internal/api"
 	"github.com/Francesco99975/reviews/internal/enums"
 	"github.com/Francesco99975/reviews/internal/helpers"
 
@@ -98,11 +97,6 @@ func createRouter(ctx context.Context) *echo.Echo {
 
 	web.GET("/reviews", controllers.ReviewsTab())
 	web.POST("/reviews", controllers.SendReview())
-
-	apigrp := e.Group("/api")
-
-	apiv1 := apigrp.Group("/v1")
-	apiv1.POST("/cats", api.GetCats())
 
 	e.HTTPErrorHandler = serverErrorHandler
 

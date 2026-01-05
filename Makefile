@@ -11,7 +11,7 @@ DB_USER := kalairen
 DB_HOST := localhost
 DB_NAME := reviewdb
 SERVER_STAGING := Francesco99975@staging.com
-SERVER_PRODUCTION := Francesco99975@prod.com
+SERVER_PRODUCTION := kalairen@avalon
 IMAGE_NAME := $(PROJECT_NAME):latest
 
 # Default target
@@ -123,4 +123,4 @@ staging: ## Deploy to staging environment
 
 .PHONY: production
 production: ## Deploy to production environment
-	scp $(PROJECT_NAME).tar $(SERVER_PRODUCTION):~/apps/$(PROJECT_NAME)
+	scp $(PROJECT_NAME).tar docker-compose.yml dbp.env $(SERVER_PRODUCTION):~/apps/$(PROJECT_NAME)/

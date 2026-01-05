@@ -5,14 +5,13 @@ import (
 	"os"
 
 	"github.com/Francesco99975/reviews/internal/enums"
-	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Port  string
-	Host  string
-	GoEnv enums.Environment
-	DSN   string
+	Port         string
+	Host         string
+	GoEnv        enums.Environment
+	DSN          string
 	NTFY         string
 	URL          string
 	MetricSecret string
@@ -22,13 +21,9 @@ type Config struct {
 var Environment = &Config{}
 
 func LoadEnvVariables() error {
-	err := godotenv.Load(".env")
-	if err != nil {
-		return fmt.Errorf("cannot load environment variables")
-	}
 
 	if !enums.IsEnvironmentValid(os.Getenv("GO_ENV")) {
-		return fmt.Errorf("invalid environment variable")
+		return fmt.Errorf("invalid environment variable: %s", os.Getenv("GO_ENV"))
 	}
 
 	Environment.Port = os.Getenv("PORT")
@@ -44,5 +39,5 @@ func LoadEnvVariables() error {
 		Environment.URL = fmt.Sprintf("https://%s", Environment.Host)
 	}
 
-	return err
+	return nil
 }

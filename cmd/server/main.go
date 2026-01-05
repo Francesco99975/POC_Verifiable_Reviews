@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"os"
 	"os/signal"
-	"log"
 	"time"
-	"fmt"
 
 	"github.com/Francesco99975/reviews/cmd/boot"
 	"github.com/Francesco99975/reviews/internal/database"
