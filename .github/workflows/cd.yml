@@ -2,7 +2,7 @@ name: CD
 
 on:
   workflow_run:
-    workflows: [CI]
+    workflows: ["CI"]   # Must exactly match the name: CI from your CI file
     types:
       - completed
 
