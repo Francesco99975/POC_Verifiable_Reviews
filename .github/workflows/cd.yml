@@ -92,6 +92,35 @@ jobs:
 
       - name: Verify deployment
         run: |
-          # Give the service some time to start
-          sleep 20
-          curl -sSf --connect-timeout 10 --max-time 10 --retry 12 --retry-delay 5 https://poc.reviews.urx.ink/healthcheck || exit 1
+          # Configuration
+          HEALTH_URL="https://poc.reviews.urx.ink/healthcheck"
+          MAX_WAIT=60        # max seconds to wait
+          INTERVAL=5         # seconds between attempts
+
+          # Install jq if not available (Alpine runner)
+          if ! command -v jq >/dev/null; then
+            echo "Installing jq..."
+            sudo apk add --no-cache jq || sudo apt-get update && sudo apt-get install -y jq
+          fi
+
+          echo "⏳ Waiting for deployment to become healthy..."
+          ELAPSED=0
+
+          until [ "$ELAPSED" -ge "$MAX_WAIT" ]; do
+            RESPONSE=$(curl -sSf --connect-timeout 5 "$HEALTH_URL" || echo "")
+            STATUS=$(echo "$RESPONSE" | jq -r '.status // empty')
+
+            if [ "$STATUS" = "ok" ]; then
+              echo "✅ Deployment is healthy!"
+              exit 0
+            fi
+
+            ELAPSED=$((ELAPSED + INTERVAL))
+            echo "Waiting... (${ELAPSED}s elapsed)"
+            sleep $INTERVAL
+          done
+
+          echo "❌ Deployment failed: service did not become healthy within ${MAX_WAIT}s"
+          echo "Last response: $RESPONSE"
+          exit 1
+
