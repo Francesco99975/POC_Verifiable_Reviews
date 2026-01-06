@@ -1,0 +1,12 @@
+{
+  "src/index.ts": {
+    "file": "index-BmuNY3h-.js",
+    "name": "index",
+    "src": "src/index.ts",
+    "isEntry": true,
+    "css": [
+      "index-D_fCLME3.css"
+    ],
+    "integrity": "sha384-UwGltD7i9PhG6S0dMLR/KvFlDjMjKoAvcLdtcEl9/IUHMGgVV+VfWyitMzNzTQnm"
+  }
+}

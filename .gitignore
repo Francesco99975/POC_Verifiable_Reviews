@@ -6,7 +6,6 @@ vendor
 .gomon
 .vscode
 *.log
-static/**/*
 build/postgres
 data
 *.pdf
