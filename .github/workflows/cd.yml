@@ -61,7 +61,8 @@ jobs:
       - name: Connect to Tailnet
         uses: tailscale/github-action@v4
         with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-client-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
           tags: tag:ci  # Adjust this tag as needed for your Tailnet ACLs
 
       - name: Set up SSH
@@ -92,5 +93,5 @@ jobs:
       - name: Verify deployment
         run: |
           # Give the service some time to start
-          sleep 10
-          curl -sSf https://poc.reviews.urx.ink/healthcheck || exit 1
+          sleep 20
+          curl -sSf --connect-timeout 10 --max-time 10 --retry 12 --retry-delay 5 https://poc.reviews.urx.ink/healthcheck || exit 1
