@@ -82,7 +82,7 @@ db: ## Connect to the local development database
 build: ## Build the Docker image
 	docker buildx build --load -t $(IMAGE_NAME) .
 	docker save $(IMAGE_NAME) > $(PROJECT_NAME).tar
-	trivy image $(IMAGE_NAME)
+	trivy image --severity HIGH,CRITICAL --exit-code 1 $(IMAGE_NAME)
 
 .PHONY: vulns
 vulns: ## Scan the Docker image for vulnerabilities
