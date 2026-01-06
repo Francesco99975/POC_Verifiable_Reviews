@@ -82,8 +82,10 @@ jobs:
           # SSH into server and deploy
           ssh kalairen@avalon << 'EOF'
             cd ~/apps/reviews
+            pwd
             docker load < reviews.tar
-            dcu
+            doppler run -- docker compose up -d
+            rm reviews.tar
             docker system prune -f
           EOF
 
