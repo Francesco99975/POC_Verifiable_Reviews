@@ -80,7 +80,7 @@ db: ## Connect to the local development database
 
 .PHONY: build
 build: ## Build the Docker image
-	docker buildx build -t $(IMAGE_NAME) .
+	docker buildx build --load -t $(IMAGE_NAME) .
 	docker save $(IMAGE_NAME) > $(PROJECT_NAME).tar
 	trivy image $(IMAGE_NAME)
 
